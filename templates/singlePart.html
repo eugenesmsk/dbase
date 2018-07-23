@@ -12,227 +12,234 @@
 {% endblock %}
 
 {% block content %}
-{% if username %}
-<div class="CharList">
-    <table class="table table-bordered">
-  <tbody>
-    <tr>
-        <th scope="row" style="width:35%">Номер партии</th>
-        {% if onePart.Party_number %}
-        <td>{{ onePart.Party_number }}</td>
-            {% else %}
-            <td>&nbsp;</td>
-          {% endif %}
-    </tr>
-    <tr>
-        <th scope="row">Плёнка</th>
-        {% if onePart.Film %}
-        <td>{{ onePart.Film }}</td>
-            {% else %}
-            <td>&nbsp;</td>
-          {% endif %}
-    </tr>
-    <tr>
-        <th scope="row">Толщина плёнки</th>
-        {% if onePart.Thick %}
-        <td>{{ onePart.Thick }} нм</td>
-            {% else %}
-            <td>&nbsp;</td>
-          {% endif %}
-    </tr>
-    <tr>
-        <th scope="row">Критическая температура</th>
-        {% if onePart.Critical_temperature %}
-        <td>{{ onePart.Critical_temperature }} К</td>
-            {% else %}
-            <td>&nbsp;</td>
-          {% endif %}
-    </tr>
-    <tr>
-        <th scope="row">Ширина перехода</th>
-        {% if onePart.width_of_transition %}
-        <td>{{ onePart.width_of_transition }} К</td>
-            {% else %}
-            <td>&nbsp;</td>
-          {% endif %}
-    </tr>
-    <tr>
-        <th scope="row">Коэффициент металличности</th>
-        {% if onePart.K %}
-        <td>{{ onePart.K }}</td>
-            {% else %}
-            <td>&nbsp;</td>
-          {% endif %}
-    </tr>
-    <tr>
-        <th scope="row">Поверхностное сопротивление</th>
-        {% if onePart.R_s %}
-        <td>{{ onePart.R_s }} Ом/кв</td>
-            {% else %}
-            <td>&nbsp;</td>
-          {% endif %}
-    </tr>
-    <tr>
-        <th scope="row" >Дополнительная информация</th>
-        {% if onePart.Additional_information %}
-        <td>{{ onePart.Additional_information }}</td>
-            {% else %}
-            <td>&nbsp;</td>
-          {% endif %}
-    </tr><tr>
-        <th scope="row" >Выпускающий</th>
-        {% if onePart.Name %}
-        <td>{{ onePart.Name }}</td>
-            {% else %}
-            <td>&nbsp;</td>
-          {% endif %}
-    </tr>
-    {% if onePart.origin.url != Null %}
-    <tr>
-        <th scope="row" >Файл графика R(T)</th>
-        <td><a href="{{ onePart.origin.url}}">скачать</a> </td>
-    </tr>
-  {% else %}
-  <tr>
-        <th scope="row" >Файл графика R(T)</th>
-        <td>Не загружен</td>
-    </tr>
-  {% endif %}
-</tbody>
-</table>
-</div>
-
-
-
-<p><h2 style="padding-left: 34%; padding-top: 2%;">Таблица образцов</h2></p>
-<div class="ChipsList">
-    <table class="table table-bordered">
-      <thead>
-        <tr>
-            <th rowspan="2" style="vertical-align: middle; text-align: center; width: 2%;">#</th>
-          <th rowspan="2" style="vertical-align: middle; text-align: center;">№ чипа</th>
-          <th rowspan="2" style="vertical-align: middle; text-align: center;">R, кОм</th>
-            <th rowspan="2" style="vertical-align: middle; text-align: center;">Комментарии</th>
-            <th colspan="2" style="vertical-align: middle; text-align: center;">Ic, uA</th>
-            <th colspan="2" style="vertical-align: middle; text-align: center;">Qe, %</th>
-          <th rowspan="2" style="vertical-align: middle; text-align: center;">Tc, К</th>
-            <th rowspan="2" style="vertical-align: middle; text-align: center;">Измеряющий</th>
-            <th rowspan="2" style="vertical-align: middle; text-align: center;">Дата</th>
-            <th rowspan="2" style="vertical-align: middle; text-align: center;">Примечание</th>
-
-        </tr>
-      <tr>
-           <th colspan="1" style="vertical-align: middle; text-align: center;"><b>при 4.2 K</b></th>
-          <th colspan="1" style="vertical-align: middle; text-align: center;"><b>при 2 K</b></th>
-          <th colspan="1" style="vertical-align: middle; text-align: center;" ><b>при 4.2 K</b></th>
-          <th colspan="1" style="vertical-align: middle; text-align: center;"><b>при 2 K</b></th>
-      </tr>
-      </thead>
-      <tbody>
-      {% for i in exemplar %}
-    <tr>
-          {% if i.num %}
-          <td style="vertical-align: middle; text-align: center;">{{ i.num }}</td>
-            {% else %}
-            <td>&nbsp;</td>
-          {% endif %}
-        {% if i.chip %}
-          <td style="vertical-align: middle; text-align: center;">{{ i.chip }}</td>
-            {% else %}
-            <td>&nbsp;</td>
-          {% endif %}
-          {% if i.R %}
-          <td style="vertical-align: middle; text-align: center;">{{ i.R }}</td>
-            {% else %}
-            <td>&nbsp;</td>
-          {% endif %}
-
-          {% if i.description %}
-          <td style="vertical-align: middle; text-align: center;">{{ i.description }}</td>
-            {% else %}
-            <td>&nbsp;</td>
-          {% endif %}
-
-        {% if crit %}
-          {% for k in crit %}
-            {% if k.num == i.num %}
-
-
-              {% if k.Ic_4%}
-              <td style="vertical-align: middle; text-align: center;">{{ k.Ic_4 }}</td>
+    {% if username %}
+        <div class="CharList">
+            <table class="table table-bordered">
+                <tbody>
+                <tr>
+                    <th scope="row" style="width:35%">Номер партии</th>
+                    {% if onePart.Party_number %}
+                        <td>{{ onePart.Party_number }}</td>
+                    {% else %}
+                        <td>&nbsp;</td>
+                    {% endif %}
+                </tr>
+                <tr>
+                    <th scope="row">Плёнка</th>
+                    {% if onePart.Film %}
+                        <td>{{ onePart.Film }}</td>
+                    {% else %}
+                        <td>&nbsp;</td>
+                    {% endif %}
+                </tr>
+                <tr>
+                    <th scope="row">Толщина плёнки</th>
+                    {% if onePart.Thick %}
+                        <td>{{ onePart.Thick }} нм</td>
+                    {% else %}
+                        <td>&nbsp;</td>
+                    {% endif %}
+                </tr>
+                <tr>
+                    <th scope="row">Критическая температура</th>
+                    {% if onePart.Critical_temperature %}
+                        <td>{{ onePart.Critical_temperature }} К</td>
+                    {% else %}
+                        <td>&nbsp;</td>
+                    {% endif %}
+                </tr>
+                <tr>
+                    <th scope="row">Ширина перехода</th>
+                    {% if onePart.width_of_transition %}
+                        <td>{{ onePart.width_of_transition }} К</td>
+                    {% else %}
+                        <td>&nbsp;</td>
+                    {% endif %}
+                </tr>
+                <tr>
+                    <th scope="row">Коэффициент металличности</th>
+                    {% if onePart.K %}
+                        <td>{{ onePart.K }}</td>
+                    {% else %}
+                        <td>&nbsp;</td>
+                    {% endif %}
+                </tr>
+                <tr>
+                    <th scope="row">Поверхностное сопротивление</th>
+                    {% if onePart.R_s %}
+                        <td>{{ onePart.R_s }} Ом/кв</td>
+                    {% else %}
+                        <td>&nbsp;</td>
+                    {% endif %}
+                </tr>
+                <tr>
+                    <th scope="row">Дополнительная информация</th>
+                    {% if onePart.Additional_information %}
+                        <td>{{ onePart.Additional_information }}</td>
+                    {% else %}
+                        <td>&nbsp;</td>
+                    {% endif %}
+                </tr>
+                <tr>
+                    <th scope="row">Выпускающий</th>
+                    {% if onePart.Name %}
+                        <td>{{ onePart.Name }}</td>
+                    {% else %}
+                        <td>&nbsp;</td>
+                    {% endif %}
+                </tr>
+                {% if onePart.origin.url != Null %}
+                    <tr>
+                        <th scope="row">Файл графика R(T)</th>
+                        <td><a href="{{ onePart.origin.url }}">скачать</a></td>
+                    </tr>
                 {% else %}
-                  <td>&nbsp;</td>
+                    <tr>
+                        <th scope="row">Файл графика R(T)</th>
+                        <td>Не загружен</td>
+                    </tr>
                 {% endif %}
-
-                  {% if k.Ic_2 %}
-              <td style="vertical-align: middle; text-align: center;">{{ k.Ic_2 }}</td>
-                {% else %}
-                  <td>&nbsp;</td>
-              {% endif %}
-
-              {% if k.Qe_4 %}
-              <td style="vertical-align: middle; text-align: center;">{{ k.Qe_4 }}</td>
-                {% else %}
-                  <td>&nbsp;</td>
-              {% endif %}
-
-              {% if k.Qe_2 %}
-              <td style="vertical-align: middle; text-align: center;">{{ k.Qe_2 }}</td>
-                {% else %}
-                  <td>&nbsp;</td>
-              {% endif %}
-
-              {% if k.Tc %}
-              <td style="vertical-align: middle; text-align: center;">{{ k.Tc }}</td>
-                {% else %}
-                  <td>&nbsp;</td>
-              {% endif %}
-
-                {% if k.name %}
-              <td style="vertical-align: middle; text-align: center;">{{ k.name }}</td>
-                {% else %}
-                  <td>&nbsp;</td>
-              {% endif %}
-
-                {% if k.data2 %}
-              <td style="vertical-align: middle; text-align: center;">{{ k.data2 }}</td>
-                {% else %}
-                  <td>&nbsp;</td>
-              {% endif %}
-
-                {% if k.additional_information %}
-              <td style="vertical-align: middle; text-align: center; ">{{ k.additional_information }}</td>
-                {% else %}
-                  <td>&nbsp;</td>
-              {% endif %}
-
-
-              {% endif %}
-{% endfor %}
-          {% else %}
-          <td>&nbsp;</td>
-          <td>&nbsp;</td>
-          <td>&nbsp;</td>
-          <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-          <td>&nbsp;</td>
-                <td>&nbsp;</td>
-          {% endif %}
+                </tbody>
+            </table>
+        </div>
 
 
 
+        <p><h2 style="padding-left: 34%; padding-top: 2%;">Таблица образцов</h2></p>
+        <div class="ChipsList">
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th rowspan="2" style="vertical-align: middle; text-align: center; width: 2%;">#</th>
+                    <th rowspan="2" style="vertical-align: middle; text-align: center;">№ чипа</th>
+                    <th rowspan="2" style="vertical-align: middle; text-align: center;">R, кОм</th>
+                    <th rowspan="2" style="vertical-align: middle; text-align: center;">Комментарии</th>
+                    <th colspan="2" style="vertical-align: middle; text-align: center;">Ic, uA</th>
+                    <th colspan="2" style="vertical-align: middle; text-align: center;">Qe, %</th>
+                    <th rowspan="2" style="vertical-align: middle; text-align: center;">Tc, К</th>
+                    <th rowspan="2" style="vertical-align: middle; text-align: center;">Измеряющий</th>
+                    <th rowspan="2" style="vertical-align: middle; text-align: center;">Дата</th>
+                    <th rowspan="2" style="vertical-align: middle; text-align: center;">Примечание</th>
+
+                </tr>
+                <tr>
+                    <th colspan="1" style="vertical-align: middle; text-align: center;"><b>при 4.2 K</b></th>
+                    <th colspan="1" style="vertical-align: middle; text-align: center;"><b>при 2 K</b></th>
+                    <th colspan="1" style="vertical-align: middle; text-align: center;"><b>при 4.2 K</b></th>
+                    <th colspan="1" style="vertical-align: middle; text-align: center;"><b>при 2 K</b></th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for i in exemplar %}
+                    <tr>
+                    {% if i.num %}
+                        <td style="vertical-align: middle; text-align: center;">{{ i.num }}</td>
+                    {% else %}
+                        <td>&nbsp;</td>
+                    {% endif %}
+                    {% if i.chip %}
+                        <td style="vertical-align: middle; text-align: center;">{{ i.chip }}</td>
+                    {% else %}
+                        <td>&nbsp;</td>
+                    {% endif %}
+                    {% if i.R %}
+                        <td style="vertical-align: middle; text-align: center;">{{ i.R }}</td>
+                    {% else %}
+                        <td>&nbsp;</td>
+                    {% endif %}
+
+                    {% if i.description %}
+                        <td style="vertical-align: middle; text-align: center;">{{ i.description }}</td>
+                    {% else %}
+                        <td>&nbsp;</td>
+                    {% endif %}
+
+                    {% for num in listNotMeas %}
+                        {% if num == i.num %}
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                        {% endif %}
+                    {% endfor %}
+
+
+                    {% if crit %}
+                        {% for object in crit %}
+                            {% if object.num == i.num %}
+
+
+                                {% if object.Ic_4 %}
+                                    <td style="vertical-align: middle; text-align: center;">{{ k.Ic_4 }}</td>
+                                {% else %}
+                                    <td>&nbsp;</td>
+                                {% endif %}
+
+                                {% if object.Ic_2 %}
+                                    <td style="vertical-align: middle; text-align: center;">{{ k.Ic_2 }}</td>
+                                {% else %}
+                                    <td>&nbsp;</td>
+                                {% endif %}
+
+                                {% if object.Qe_4 %}
+                                    <td style="vertical-align: middle; text-align: center;">{{ k.Qe_4 }}</td>
+                                {% else %}
+                                    <td>&nbsp;</td>
+                                {% endif %}
+
+                                {% if object.Qe_2 %}
+                                    <td style="vertical-align: middle; text-align: center;">{{ k.Qe_2 }}</td>
+                                {% else %}
+                                    <td>&nbsp;</td>
+                                {% endif %}
+
+                                {% if object.Tc %}
+                                    <td style="vertical-align: middle; text-align: center;">{{ k.Tc }}</td>
+                                {% else %}
+                                    <td>&nbsp;</td>
+                                {% endif %}
+
+                                {% if object.name %}
+                                    <td style="vertical-align: middle; text-align: center;">{{ k.name }}</td>
+                                {% else %}
+                                    <td>&nbsp;</td>
+                                {% endif %}
+
+                                {% if object.data2 %}
+                                    <td style="vertical-align: middle; text-align: center;">{{ k.data2 }}</td>
+                                {% else %}
+                                    <td>&nbsp;</td>
+                                {% endif %}
+
+                                {% if object.additional_information %}
+                                    <td style="vertical-align: middle; text-align: center; ">{{ k.additional_information }}</td>
+                                {% else %}
+                                    <td>&nbsp;</td>
+                                {% endif %}
+
+
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
 
 
 
 
-        {% endfor %}
-    </tbody>
-    </table>
-</div>
-<a href="{% url 'printList' pk=onePart.pk nums=onePart.Party_number  %}" style="margin-left: 42%;"> Страница печати </a>
 
-{% else %}
-    <h2 style="text-align: center">Для просмотра необходима авторизация</h2>
-{% endif %}
+
+
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <a href="{% url 'printList' pk=onePart.pk nums=onePart.Party_number %}" style="margin-left: 42%;"> Страница
+            печати </a>
+
+    {% else %}
+        <h2 style="text-align: center">Для просмотра необходима авторизация</h2>
+    {% endif %}
 {% endblock %}

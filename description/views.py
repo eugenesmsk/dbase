@@ -29,8 +29,18 @@ def forOne(request, pk, nums=None, fK_id__Party_number=None):
     onePart = get_object_or_404(Part, pk=pk)
     exemplar = Line.objects.filter(fK_id__Party_number=nums)
     crit = currEffInLine.objects.filter(fKey_id__part_id=pk)
-    count = 0
-    return render_to_response('singlePart.html', {'onePart': onePart, 'exemplar': exemplar, 'crit': crit, 'count': count, 'username': auth.get_user(request).username}, )
+
+    list1 = []
+    list2 = []
+    for object in exemplar:
+        list1.append(object.num)
+    for object in crit:
+        list2.append(object.num)
+    listMeas = list(set(list1) & set(list2))
+    listNotMeas = list(set(list1) - set(list2))
+
+
+    return render_to_response('singlePart.html', {'onePart': onePart, 'exemplar': exemplar, 'crit': crit, 'listMeas': listMeas, 'listNotMeas': listNotMeas, 'username': auth.get_user(request).username}, )
 
 def printing(request, pk, nums=None, fK_id__Party_number=None):
     onePart = get_object_or_404(Part, pk=pk)
