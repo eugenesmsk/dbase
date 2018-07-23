@@ -15,6 +15,18 @@ def PartyNumView(request, page_number = 1):
     countItems = range(current_page.count)
     eachMeasure = currEff.objects.annotate(number=Count('curreffinline'))
 
+
+    list1 = list(eachMeasure.values('part_id'))         #создаём список словарей типа {'part_id':value}
+    list2 = []
+    for object in list1:
+        list2.append((object['part_id']))               #достаём из list1 id измеренных партий
+
+    currPage = current_page.page(page_number)           #создание списка партий на текущей странице
+    listPage = []
+    for object in currPage.object_list:
+        listPage.append(object.id)                      #кладём в список listPage id партий на текущей странице
+    notMeasure = list(set(listPage) - set(list2))               #создание списка неизмеренных партий
+
     try:
         context = current_page.page(page_number)
     except PageNotAnInteger:
@@ -22,7 +34,7 @@ def PartyNumView(request, page_number = 1):
     except EmptyPage:
         context = current_page.page(current_page.num_pages)
 
-    return render_to_response('part_list.html', {'PartyNum': context, 'eachMeasure': eachMeasure, 'countItems': countItems, 'username': auth.get_user(request).username})
+    return render_to_response('part_list.html', {'PartyNum': context, 'eachMeasure': eachMeasure, 'countItems': countItems, 'notMeasure': notMeasure, 'username': auth.get_user(request).username})
 
 
 def forOne(request, pk, nums=None, fK_id__Party_number=None):

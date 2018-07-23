@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load static %}
+
+{% block activeButton %}
+    <li class="active"><a href="/parties">Описание партий</a></li>
+    <li class="disabled"><a href="">Ic и QE</a></li>
+{% endblock %}
+
+{% block tableName %}
+    Список партий
+{% endblock %}
+
+{% block content %}
+    {% if username %}
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th style="vertical-align: middle; text-align: center;">№</th>
+                <th style="vertical-align: middle; text-align: center;">Номер партии</th>
+                <th style="vertical-align: middle; text-align: center;">Плёнка</th>
+                <th style="vertical-align: middle; text-align: center;">Толщина плёнки, нм</th>
+                <th style="vertical-align: middle; text-align: center;">Tc, К</th>
+                <th style="vertical-align: middle; text-align: center;">Rs, Ом/кв</th>
+                <th style="vertical-align: middle; text-align: center;">Измерено образцов</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            {% for object in PartyNum %}
+
+                <tr>
+                <td style="vertical-align: middle; text-align: center;">{{ forloop.counter }}</td>
+                <td style="vertical-align: middle; text-align: center;"><a
+                        href="{% url 'onePart' nums=object.Party_number pk=object.pk %}"> {{ object.Party_number }}</a>
+                </td>
+                {% if object.Film %}
+                    <td style="vertical-align: middle; text-align: center;">{{ object.Film }}</td>
+                {% else %}
+                    <td style="vertical-align: middle; text-align: center;">-</td>
+                {% endif %}
+                {% if object.Thick %}
+                    <td style="vertical-align: middle; text-align: center;">{{ object.Thick }}</td>
+                {% else %}
+                    <td style="vertical-align: middle; text-align: center;">-</td>
+                {% endif %}
+                {% if object.Critical_temperature %}
+                    <td style="vertical-align: middle; text-align: center;">{{ object.Critical_temperature }}</td>
+                {% else %}
+                    <td style="vertical-align: middle; text-align: center;">-</td>
+                {% endif %}
+                {% if object.R_s %}
+                    <td style="vertical-align: middle; text-align: center;">{{ object.R_s }}</td>
+                {% else %}
+                    <td style="vertical-align: middle; text-align: center;">-</td>
+                {% endif %}
+
+                    {% if eachMeasure %}
+                        {% for each in eachMeasure %}
+
+                            {% if each.part_id == object.id %}
+                                <th style="vertical-align: middle; text-align: center;">{{ each.number }}</th>
+                    {% endif %}
+
+                        {% endfor %}
+
+                    {% endif %}
+                {% if object.is_past_due == False %}
+                        <td style="vertical-align: middle; text-align: center;">Не передана</td>
+                    {% else %}
+                    {% for id in notMeasure %}
+                        {% if id == object.id %}
+                        <th style="vertical-align: middle; text-align: center;">0</th>
+                        {% endif %}
+                    {% endfor %}
+{% endif %}
+
+
+            {% endfor %}
+
+
+            </tbody>
+
+        </table>
+
+        <div class="row" style="margin-left:45%;">
+            <div class="large-3 large-offset-5 columns">
+                <ul class="pagination">
+                    {% if PartyNum.has_previous %}
+                        <li class="arrow"><a href="/parties/{{ PartyNum.previous_page_number }}/">&laquo;</a></li>
+                    {% else %}
+                        <li class="arrow disabled"><a href="">&laquo;</a></li>
+                    {% endif %}
+                    {% for page in PartyNum.paginator.page_range %}
+                        {% if page == PartyNum.number %}
+                            <li class="current"><a href="/parties/{{ page }}/">{{ page }}</a></li>
+                        {% else %}
+                            <li><a href="/parties/{{ page }}/">{{ page }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                    {% if PartyNum.has_next %}
+                        <li class="arrow"><a href="/parties/{{ PartyNum.next_page_number }}/">&raquo;</a></li>
+                    {% else %}
+                        <li class="arrow disabled"><a href="">&raquo;</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    {% else %}
+        <h2 style="text-align: center">Для просмотра необходима авторизация</h2>
+    {% endif %}
+{% endblock content %}
